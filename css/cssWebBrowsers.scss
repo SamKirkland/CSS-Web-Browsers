@@ -1,0 +1,831 @@
+/*! CSS Web Browsers - v0.01 - 2015-08-21
+* https://github.com/SamKirkland/CSS-Web-Browsers
+* Copyright 2015 Sam Kirkland; MIT License */
+
+
+$header-bgcolor:					#CFCFCF;
+$border-radius:						4px;
+
+$header-close-bgcolor:				#D5635D;
+$header-close-bgcolor-hover:		#ce4942;
+$header-close-bgcolor-active:		#bd3831;
+
+$header-minimize-bgcolor:			#DA5;
+$header-minimize-bgcolor-hover:		#d79c39;
+$header-minimize-bgcolor-active:	#c68b28;
+
+$header-expand-bgcolor:				#76B24F;
+$header-expand-bgcolor-hover:		#669b44;
+$header-expand-bgcolor-active:		#57843a;
+
+
+/* Tab color */
+$tab-bgcolor:						#DFDFDF;
+$tab-bgcolor-hover:					#EBEBEB;
+$tab-bgcolor-dragging:				blue;
+
+
+/* Toolbar */
+$tb-bgcolor:						#EBEBEB;
+$tb-button-bgcolor:					$tb-bgcolor;
+$tb-button-bgcolor-hover:			darken($tb-bgcolor, 10%);
+$tb-button-bgcolor-active:			darken($tb-bgcolor, 20%);
+
+$tb-button-icon-color:				#707070;
+
+/* Back/Forward buttons */
+$back-btn-bgcolor:					#d1d1d1;
+
+/* URL/Search input */
+$url-bgcolor:						#fff;
+
+/* HTTPS lock */
+$http-gray-border:					#c0c0c0; // Gray
+$http-gray-bg:						#DEDEDE; // Gray
+$https-green:						#519b1f; // Green
+
+
+
+/* Mini Browser common code */
+.miniBrowser {
+	background: $header-bgcolor;
+	border-radius: $border-radius;
+	width: 100%;
+	margin: auto;
+	box-sizing: border-box;
+	overflow: hidden;
+
+
+	/* Generic header */
+	.miniBrowserHeader {
+		width: 100%;
+		box-sizing: border-box;
+
+
+		/* minimize/close/expand buttons */
+		.windowAction {
+			width: 12px;
+			height: 12px;
+			border-radius: 6px;
+			margin-right: 6px;
+		}
+
+		/* Close(Red) Button */
+		.close { @extend .windowAction; background: $header-close-bgcolor; }
+		.close:hover, .close:focus { background: $header-close-bgcolor-hover; }
+		.close:active { background: $header-close-bgcolor-active; }
+
+		/* Minimize(Yellow) Button */
+		.minimize { @extend .windowAction; background: $header-minimize-bgcolor; }
+		.minimize:hover, .minimize:focus { background: $header-minimize-bgcolor-hover; }
+		.minimize:active { background: $header-minimize-bgcolor-active; }
+
+		/* Expand(Green) Button */
+		.expand { @extend .windowAction; background: $header-expand-bgcolor; }
+		.expand:hover, .expand:focus { background: $header-expand-bgcolor-hover; }
+		.expand:active { background: $header-expand-bgcolor-active; }
+
+
+
+
+		/* Refresh, Home, and Menu icons */
+		.extensionIcon {
+			width: 24px;
+			height: 24px;
+			margin-left: 5px;
+			position: relative;
+			cursor: pointer;
+			background: $tb-button-bgcolor;
+			border-color: transparent;
+
+			&:hover {
+				background: $tb-button-bgcolor-hover;
+			}
+			&:active {
+				background: $tb-button-bgcolor-active;
+			}
+		}
+
+
+		/* Refresh Button */
+		.refresh {
+			@extend .extensionIcon;
+
+			/* Circle */
+			&:before {
+				content: '';
+				position: absolute;
+				left: 6px;
+				top: 6px;
+				width: 7px;
+				height: 7px;
+				border-radius: 20px;
+				border: 3px solid $tb-button-icon-color;
+			}
+
+			/* Arrow */
+			&:after {
+				content: '';
+				position: absolute;
+				top: 8px;
+				right: -1px;
+				width: 0;
+				height: 0;
+				border: solid 5px transparent;
+				border-left-color: $tb-button-icon-color;
+				border-bottom-color: $tb-button-bgcolor;
+				transform: rotate(45deg);
+			}
+
+
+			/* Refresh button style the arrow to match the hover effects */
+			&:hover, &:focus {
+				&:after {
+					border-bottom-color: $tb-button-bgcolor-hover;
+				}
+			}
+			&:active {
+				&:after {
+					border-bottom-color: $tb-button-bgcolor-active;
+				}
+			}
+		}
+
+
+		/* Home button style the arrow to match the hover effects */
+		.home {
+			@extend .extensionIcon;
+
+			&:before {
+				content: '';
+				height: 0px;
+				width: 0px;
+				top: 4px;
+				left: 4px;
+				display: block;
+				position: absolute;
+				border: 8px solid transparent;
+				border-bottom-color: $tb-button-icon-color;
+				border-top: 0;
+			}
+			&:after {
+				content: '';
+				height: 5px;
+				width: 3px;
+				top: 12px;
+				left: 7px;
+				display: block;
+				position: absolute;
+				border: 8px $tb-button-icon-color solid;
+				border-width: 3px 4px 0 4px;
+			}
+		}
+
+
+		/* Menu Button */
+		.menu {
+			@extend .extensionIcon;
+
+			&:before {
+				content: '';
+				height: 3px;
+				width: 16px;
+				top: 6px;
+				left: 4px;
+				display: block;
+				position: absolute;
+				border-radius: 1px;
+				background: $tb-button-icon-color;
+				box-shadow: 0 5px 0 $tb-button-icon-color, 0 10px 0 $tb-button-icon-color;
+			}
+		}
+
+
+		ul {
+			display: block;
+			clear: both;
+			height: 25px;
+			margin: 0;
+			padding: 10px 10px 0 10px;
+			list-style-type: none;
+
+
+			li {
+				float: left;
+				cursor: pointer;
+				display: inline-block;
+
+				&.tab,
+				&.newTab {
+					position: relative;
+					background: $tab-bgcolor;
+					height: 25px;
+					color: #A3A3A3;
+					line-height: 25px;
+					min-width: 150px;
+					margin-right: 3px;
+					text-align: center;
+
+					&:hover, &:focus, &.activeTab {
+						background: $tab-bgcolor-hover;
+						z-index: 100;
+					}
+				}
+
+				
+				&.newTab {
+					background: $tab-bgcolor;
+					width: 25px;
+					min-width: auto;
+					font-size: 20px;
+				}
+
+				/* Tab bottomleft corner */
+				&.tab:before, &.tab:after,
+				&.newTab:before, &.newTab:after {
+					content:"";
+					overflow: hidden;
+					position: absolute;
+					bottom: 0;
+					left: -6px;
+					width: 6px;
+					height: 6px;
+					z-index: 2;
+				}
+
+			}
+		}
+	}
+
+
+
+
+	/* Wraps the url & buttons */
+	.miniBrowserToolBar {
+		display: flex;
+		padding: 10px 5px 10px 15px;
+		background: $tb-bgcolor;
+		overflow: hidden;
+
+		/* Search bar */
+		.miniBrowserSearch {
+			display: flex;
+			flex: 1;
+			margin: 0 10px;
+
+			input {
+				background: #fff;
+				width: 100%;
+				height: 20px;
+				border: 0;
+				outline: none;
+				line-height: 20px;
+				font-size: 15px;
+				padding: 2px 30px 2px 12px;
+
+				border-radius: 10px;
+
+				float: left;
+			}
+
+			/* search icon */
+			div {
+				@extend .extensionIcon;
+				margin-left: -25px !important;
+				float: right;
+				background: transparent !important;
+
+				/* Circle */
+				&:before {
+					content: '';
+					position: absolute;
+					left: 4px;
+					top: 5px;
+					width: 7px;
+					height: 7px;
+					border-radius: 20px;
+					border: 2px solid $tb-button-icon-color;
+				}
+
+				/* Circle tick */
+				&:after {
+					content: '';
+					position: absolute;
+					background: $tb-button-icon-color;
+					top: 15px;
+					left: 13px;
+					width: 6px;
+					height: 2px;
+					transform: rotate(45deg);
+				}
+			}
+		}
+
+		/* Generic URL */
+		.miniBrowserURL {
+			background: $url-bgcolor;
+			height: 20px;
+			padding: 2px 6px 2px 2px;
+			line-height: 20px;
+			font-size: 14px;
+			color: #6b6b6b;
+			display: flex;
+			flex: 1;
+
+			/* URL input box */
+			input {
+				background: transparent;
+				border: 0;
+				outline: none;
+				display: flex;
+				flex: 1;
+			}
+
+
+			/* http and https logo in url bar */
+			&.http div, &.https div {
+				position: relative;
+				z-index: 1;
+				display: flex;
+				flex: initial;
+				width: 20px;
+				height: 20px;
+				float: left;
+			}
+
+			&.https div:before, &.https div:after,
+			&.http div:before, &.http div:after {
+				content: "";
+				position: absolute;
+				top: 50%;
+				left: 0;
+			}
+
+
+			/* make the lock green */
+			&.http {
+				div:before {
+					width: 8px;
+					height: 12px;
+					left: 4px;
+					top: 3px;
+					background: $http-gray-bg;
+					border: 1px solid $http-gray-bg;
+				}
+				div:after {
+					width: 0;
+					height: 0;
+
+					top: 3px;
+					left: 8px;
+
+					border-style: solid;
+					border-width: 0 6px 6px 0;
+					border-color: transparent $url-bgcolor $http-gray-border transparent;
+				}
+			}
+
+
+			/* HTTPS lock */
+			&.https {
+				height: 20px;
+				padding: 2px 6px 2px 2px;
+				line-height: 20px;
+				font-size: 14px;
+				color: $https-green;
+				overflow: hidden;
+
+				/* lock body */
+				div:before {
+					left: 3px;
+					width: 10px;
+					height: 7px;
+					margin-top: -1px;
+					border-radius: 3px;
+					background: $https-green;
+				}
+
+				/* lock shackle */
+				div:after {
+					left: 4px;
+					width: 4px;
+					height: 5px;
+					border: 2px solid $https-green;
+					border-radius: 5px 5px 0 0;
+					border-bottom: 0;
+					margin-top: -6px;
+					background: transparent;
+				}
+			}
+		}
+	}
+	
+
+
+	/* Generic back/forward */
+	.miniBrowserBack, .miniBrowserForward {
+		background: $tb-button-bgcolor;
+		cursor: pointer;
+		width: 24px;
+		height: 24px;
+		position: relative;
+
+		&:hover, &:focus {
+			background: $tb-button-bgcolor-hover;
+		}
+		&:active {
+			background: $tb-button-bgcolor-active;
+		}
+	}
+	.miniBrowserBack:after {
+		content: " ";
+		height: 0;
+		width: 0;
+		right: 7px;
+		top: 6px;
+		position: absolute;
+		pointer-events: none;
+
+		border: solid transparent 6px;
+		border-right-color: $tb-button-icon-color;
+		border-right-width: 12px;
+	}
+	.miniBrowserForward:after {
+		content: " ";
+		height: 0;
+		width: 0;
+		right: -1px;
+		top: 6px;
+		position: absolute;
+		pointer-events: none;
+
+		border: solid transparent 6px;
+		border-left-color: $tb-button-icon-color;
+		border-left-width: 12px;
+	}
+
+
+	.miniBrowserContent {
+		width: 100%;
+		background: #fff;
+		text-align: center;
+		padding: 15px 25px;
+		border: 1px solid $tb-bgcolor;
+		border-top: 0;
+		box-sizing: border-box;
+		border-radius: 0 0 $border-radius $border-radius;
+	}
+}
+
+
+
+
+
+/* FireFox */
+.firefox {
+	/* Custom back button */
+	.miniBrowserBack {
+		width: 30px;
+		height: 30px;
+		border-radius: 15px;
+
+		margin: -3px 0 0 0;
+		z-index: 1;
+
+		background: darken($back-btn-bgcolor, 5%);
+		
+		&:after {
+			right: 11px;
+			top: 7px;
+			border-width: 8px;
+			border-right-width: 12px;
+		}
+	}
+	/* Custom forward button */
+	.miniBrowserForward {
+		background: #dbdbdb;
+		padding-left: 4px;
+		margin-left: -6px;
+	}
+
+
+	.miniBrowserHeader {
+		.miniBrowserToolBar {
+			.miniBrowserURL {
+				margin-left: -6px;
+				padding-left: 8px;
+				flex: 3;
+
+				/* URL input box */
+				input {
+					background: transparent;
+					border: 0;
+					outline: none;
+					display: flex;
+					flex: 1;
+				}
+			}
+		}
+
+		ul {
+			display: block;
+			clear: both;
+			height: 25px;
+			margin: 0;
+			padding: 10px 10px 0 10px;
+			list-style-type: none;
+
+
+			li {
+				float: left;
+				cursor: pointer;
+				display: inline-block;
+
+				&.tab,
+				&.newTab {
+					position: relative;
+					height: 25px;
+					color: #A3A3A3;
+					line-height: 25px;
+					min-width: 150px;
+					margin-right: 3px;
+					text-align: center;
+					border-radius: 4px 4px 0 0;
+
+					&:hover, &:focus, &.activeTab {
+						z-index: 100;
+
+						&:before {
+							background: radial-gradient(ellipse at top left, rgba($tab-bgcolor-hover,0) 0%, rgba($tab-bgcolor-hover,0) 70%, rgba($tab-bgcolor-hover,1) 71%, rgba($tab-bgcolor-hover,1) 100%);
+						}
+						&:after {
+							background: #EBEBEB;
+							background: radial-gradient(ellipse at top right, rgba($tab-bgcolor-hover,0) 0%, rgba($tab-bgcolor-hover,0) 70%, rgba($tab-bgcolor-hover,1) 71%, rgba($tab-bgcolor-hover,1) 100%);
+						}
+					}
+				}
+
+				
+				&.newTab {
+					width: 25px;
+					min-width: auto;
+					font-size: 20px;
+				}
+
+				/* Tab bottomleft corner */
+				&.tab:before, &.tab:after,
+				&.newTab:before, &.newTab:after {
+					content:"";
+					overflow: hidden;
+					position: absolute;
+					bottom: 0;
+					left: -6px;
+					width: 6px;
+					height: 6px;
+					z-index: 2;
+
+					background: radial-gradient(ellipse at top left, rgba($tab-bgcolor,0) 0%, rgba($tab-bgcolor,0) 70%, rgba($tab-bgcolor,1) 71%, rgba($tab-bgcolor,1) 100%);
+				}
+
+				/* Tab bottomright corner */
+				&.tab:after,
+				&.newTab:after {
+					left: auto;
+					right: -6px;
+					background: radial-gradient(ellipse at top right, rgba($tab-bgcolor,0) 0%, rgba($tab-bgcolor,0) 70%, rgba($tab-bgcolor,1) 71%, rgba($tab-bgcolor,1) 100%);
+				}
+			}
+		}
+	}
+}
+
+
+
+/* Chrome */
+.chrome {
+	/* left arrow tip */
+	.miniBrowserBack {
+		&:active {
+			background: #bebebe;
+		}
+
+		&:after {
+			width: 6px;
+			height: 6px;
+			right: 7px;
+			top: 8px;
+			border: solid 3px $tb-button-icon-color;
+			border-right: 0;
+			border-top: 0;
+			transform: rotate(45deg);
+		}
+		&:before {
+			width: 8px;
+			height: 3px;
+			content: " ";
+			position: absolute;
+			left: 10px;
+			top: 11px;
+			background: $tb-button-icon-color;
+		}
+	}
+
+
+	/* right arrow tip */
+	.miniBrowserForward {
+		&:active {
+			background: #bebebe;
+		}
+
+		&:after {
+			width: 6px;
+			height: 6px;
+			right: 6px;
+			top: 8px;
+			border: solid 3px $tb-button-icon-color;
+			border-left: 0;
+			border-bottom: 0;
+			transform: rotate(45deg);
+		}
+		&:before {
+			width: 8px;
+			height: 3px;
+			content: " ";
+			position: absolute;
+			right: 8px;
+			top: 11px;
+			background: $tb-button-icon-color;
+		}
+	}
+
+	.miniBrowserToolBar {
+		padding-left: 5px;
+	}
+
+
+	.miniBrowserHeader {
+		/* Add padding between first tab and far left of browser */
+		.firstTab {
+			margin-left: 5px;
+		}
+
+		/* Custom Chrome Tabs */
+		ul li {
+			&.tab,
+			&.newTab {
+				background: $tab-bgcolor;
+				margin-right: 12px;
+
+				&:hover, &:focus, &.activeTab {
+					background: $tab-bgcolor-hover;
+					z-index: 100;
+
+					&:before {
+						border-bottom-color: $tab-bgcolor-hover;
+					}
+					&:after {
+						border-bottom-color: $tab-bgcolor-hover;
+					}
+				}
+			}
+			&.newTab {
+				background: $tab-bgcolor;
+				width: 25px;
+				min-width: auto;
+				font-weight: bold;
+			}
+
+
+			/* Tab bottomleft corner */
+			&.tab:before, &.tab:after,
+			&.newTab:before, &.newTab:after {
+				left: -10px;
+				width: 0;
+				height: 0;
+				z-index: 2;
+
+				border-style: solid;
+				border-width: 0 0 25px 10px;
+				border-color: transparent transparent $tab-bgcolor transparent;
+			}
+
+			/* Tab bottomright corner */
+			&.tab:after,
+			&.newTab:after {
+				left: auto;
+				right: -10px;
+				border-width: 0 10px 25px 0;
+			}
+
+			/* Chrome newtab button */
+			&.newTab {
+				width: 15px;
+				height: 15px;
+				margin-top: 4px;
+				margin-left: 5px;
+				text-indent: -9999px; /* Hide + */
+
+				&:before {
+					border-width: 0 7px 15px 0;
+					border-color: transparent $tab-bgcolor transparent transparent;
+					left: -7px;
+				}
+				&:after {
+					border-width: 0 7px 15px 0;
+					right: -7px;
+				}
+
+				&:hover, &:focus {
+					&:before {
+						border-bottom-color: transparent;
+						border-right-color: $tab-bgcolor-hover;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+/* Internet Explorer 11 */
+.ie {
+	.miniBrowserHeader {
+		.miniBrowserToolBar {
+			background: $header-bgcolor;
+			padding-bottom: 0;
+			height: 25px;
+
+
+			/* Move the refresh icon so it's within the url input */
+			.refresh {
+				margin-left: -25px;
+				background: transparent;
+
+				&:after {
+					border-bottom-color: $url-bgcolor;
+				}
+			}
+
+
+			/* Add padding to the right side of the url input so text doesn't go behind the icon */
+			.miniBrowserURL {
+				input {
+					padding-right: 20px;
+				}
+			}
+
+
+
+			ul {
+				padding: 0;
+				margin-left: 5px;
+			}
+		}
+
+
+
+		/* Custom back button */
+		.miniBrowserBack {
+			width: 32px;
+			height: 32px;
+			border-radius: 16px;
+
+			margin: -3px 0 0 0;
+			z-index: 1;
+
+			background: darken($back-btn-bgcolor, 10%);
+			
+			&:hover, &:focus {
+				background: darken($back-btn-bgcolor, 13%);
+			}			
+			&:active {
+				background: darken($back-btn-bgcolor, 16%);
+			}
+
+			&:after {
+				right: 11px;
+				top: 8px;
+				border-width: 8px;
+				border-right-width: 12px;
+			}
+		}
+		/* Custom forward button */
+		.miniBrowserForward {
+			background: darken($back-btn-bgcolor, 8%);
+			margin-left: 2px;
+			margin-right: 2px;
+			border-radius: 15px;
+
+			&:hover, &:focus {
+				background: darken($back-btn-bgcolor, 10%);
+			}			
+			&:active {
+				background: darken($back-btn-bgcolor, 12%);
+			}
+		}
+
+	}
+}
