@@ -1,6 +1,6 @@
 # CSS Web Browsers
 
-	[Demo](http://samkirkland.com/labs/CSS-Web-Browsers)
+	[Demo](http://samkirkland.com/labs/CSS-Web-Browsers/browsers.html)
 
 ## Description:
 
@@ -10,7 +10,7 @@
 
 ## Source:
 
-	Version: v0.01
+	Version: v0.02
 	Released: 2015-08-21
 
 	Hosted at GitHub; browse at:
@@ -19,7 +19,7 @@
 ## Usage:
 
 	1. Copy the contents of css/ to the css asset directory in your project.
-		--* (optionally) use scss and compile it after changing variables to meet your needs.
+		``* (optionally) use scss and compile it after changing variables to meet your needs.
 
 	2. Include the required CSS into your document:
 	```html
@@ -59,38 +59,42 @@
 		</div>
 
 	4. Customize the HTML or add a browser specific class to the root <div class="miniBrowser"> element:
-		--* .firefox
-		--* .safari (coming soon)
-		--* .edge (coming soon)
-		--* .chrome
-		--* .ie
+		``* .firefox
+		``* .safari (coming soon)
+		``* .edge (coming soon)
+		``* .chrome
+		``* .ie
 
 	5. (Optional) Add Javascript to autodetect the users current browser and style the default browser to match their current web browser:
-	```javascript
+	```js
 		/* This wont work all the time, but its good enough */
-		var browser = "";
-		var userAgent = navigator.userAgent.toLowerCase();
+		function detectBrowser() {
+			var browser = "";
+			var userAgent = navigator.userAgent.toLowerCase();
 
-		// is internet explorer
-		if (userAgent.indexOf('msie') > -1 || userAgent.indexOf('nt') > -1) { browser = "ie"; }
+			// is internet explorer
+			if (userAgent.indexOf('msie') > -1 || userAgent.indexOf('edge') > -1 || userAgent.indexOf('trident') > -1) { browser = "ie"; }
 
-		// is firefox
-		else if (userAgent.indexOf('firefox') > -1) { browser = "firefox"; }
+			// is firefox
+			else if (userAgent.indexOf('firefox') > -1) { browser = "firefox"; }
 
-		// is chrome
-		else if (userAgent.indexOf('chrome') > -1) { browser = "chrome"; }
+			// is chrome
+			else if (userAgent.indexOf('chrome') > -1) { browser = "chrome"; }
 
-		// is safari
-		else if (userAgent.indexOf('safari') > -1) { browser = "safari"; }
+			// is safari
+			else if (userAgent.indexOf('safari') > -1) { browser = "safari"; }
+
+			return browser;
+		}
 
 		// waits for the DOM to finish loading
 		document.addEventListener("DOMContentLoaded", function(event) {
 			// adds the current browser class to the first occurance of .miniBrowser 
-			document.getElementsByClassName("miniBrowser")[0].className = "miniBrowser " + browser;
+			document.getElementsByClassName("miniBrowser")[0].className = "miniBrowser " + detectBrowser();
 		});
 	```
 
 ## License:
 
-	Copyright 2015 Sam Kirkland (css-web-browsers@samkirkland.com)
+	Copyright 2015 Sam Kirkland (mailto:css-web-browsers@samkirkland.com)
 	Released under The MIT License.
