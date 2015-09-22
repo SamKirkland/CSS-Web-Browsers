@@ -1,6 +1,12 @@
 # CSS Web Browsers
 
-[Demo](http://samkirkland.com/labs/CSS-Web-Browsers/browsers.html)
+[Demo](http://samkirkland.com/labs/CSS-Web-Browsers/demo.html)
+
+
+## Screen shots:
+
+![Screen shot of all browsers](https://raw.githubusercontent.com/SamKirkland/CSS-Web-Browsers/master/screenshots/all-browsers.png)
+
 
 ## Description:
 
@@ -28,35 +34,38 @@ https://github.com/SamKirkland/CSS-Web-Browsers
 ```
 
 3. Add the HTML to your document.
+```html
 <div class="miniBrowser">
-<div class="miniBrowserHeader">
-<ul>
-<li class="close"></li>
-<li class="minimize"></li>
-<li class="expand"></li>
-<li class="tab activeTab firstTab">Tab 1</li>
-<li class="tab">Tab 2</li>
-<li class="newTab">+</li>
-</ul>
+	<div class="miniBrowserHeader">
+		<ul>
+			<li class="close"></li>
+			<li class="minimize"></li>
+			<li class="expand"></li>
+			<li class="tab activeTab firstTab">Tab 1</li>
+			<li class="tab">Tab 2</li>
+			<li class="newTab">+</li>
+		</ul>
 
-<div class="miniBrowserToolBar">
-<div class="miniBrowserBack"></div>
-<div class="miniBrowserForward"></div>
+		<div class="miniBrowserToolBar">
+			<div class="miniBrowserBack"></div>
+			<div class="miniBrowserForward"></div>
 
-<div class="refresh"></div>
-<div class="home"></div>
+			<div class="refresh"></div>
+			<div class="home"></div>
 
-<div class="miniBrowserURL https">
-<div></div><input type="text" spellcheck="false" value="https://samkirkland.com/">
-</div>
+			<div class="miniBrowserURL https">
+				<div></div><input type="text" spellcheck="false" value="https://samkirkland.com/">
+			</div>
 
-<div class="menu"></div>
+			<div class="menu"></div>
+		</div>
+	</div>
+	<div class="miniBrowserContent">
+		Place Content Here
+	</div>
 </div>
-</div>
-<div class="miniBrowserContent">
-Place Content Here
-</div>
-</div>
+```
+
 
 4. Customize the HTML or add a browser specific class to the root <div class="miniBrowser"> element:
 ``* .firefox
