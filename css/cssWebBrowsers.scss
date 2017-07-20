@@ -1,4 +1,4 @@
-/*! CSS Web Browsers - v0.02 - 2015-08-21
+/*! CSS Web Browsers - v0.03 - 2015-08-23
 * https://github.com/SamKirkland/CSS-Web-Browsers
 * Copyright 2015 Sam Kirkland; MIT License */
 
@@ -222,7 +222,7 @@ $https-green:						#519b1f; // Green
 					height: 25px;
 					color: #A3A3A3;
 					line-height: 25px;
-					min-width: 150px;
+					min-width: 125px;
 					margin-right: 3px;
 					text-align: center;
 
@@ -236,7 +236,7 @@ $https-green:						#519b1f; // Green
 				&.newTab {
 					background: $tab-bgcolor;
 					width: 25px;
-					min-width: auto;
+					min-width: 0;
 					font-size: 20px;
 				}
 
